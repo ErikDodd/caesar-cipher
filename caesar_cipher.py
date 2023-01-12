@@ -1,7 +1,7 @@
 import string
 import nltk
 import ssl
-import re
+from collections import Counter
 
 try:
     _create_unverified_https_context = ssl._create_unverified_context
@@ -36,20 +36,41 @@ def encrypt(plaintext, key):
     return ciphertext
 
 
-def decrypt(plaintext, key):
-    pass
+def decrypt(ciphertext, key):
+    return encrypt(ciphertext, -key)
 
 
-def crack(plaintext, key):
-    pass
+def crack(ciphertext):
+    # Count the frequency of each letter in the ciphertext
+    frequencies = Counter(ciphertext)
+    print(frequencies)
+
+    # Assume that the most frequent letter in the ciphertext is "e"
+    most_frequent = max(frequencies, key=frequencies.get)
+    print("Most Frequent: ", most_frequent)
+    assumed_plaintext = "e"
+
+    # Determine the key (shift) by finding the difference between the
+    # assumed plaintext and the most frequent letter in the ciphertext
+    key = ord(assumed_plaintext) - ord(most_frequent)
+    print("key:", key)
+
+    # Use the key to decrypt the rest of the message
+    plaintext = ""
+    for char in ciphertext:
+        plaintext += chr((ord(char) - key) % 26 + ord('a'))
+    return plaintext
+
 
 
 if __name__ == "__main__":
-    word = "ZZZ"
-    print(f"the word is: {word}")
-    encrypted_word = encrypt(word, 1)
-    print(f"the encrypted word is: {encrypted_word}")
-    #new_word = "abc"
-    # print(f"the word is: {new_word}")
-    # encrypted_new_word = encrypt(new_word, 10)
+    # word = "pizza"
+    # print(f"the word is: {word}")
+    # encrypted_word = encrypt(word, 1)
+    # print(f"the encrypted word is: {encrypted_word}")
+    # decrypted_word = decrypt(encrypted_word, 1)
+    # print(f"the decrypted word is: {decrypted_word}")
+    ciphertext = "qjaab"
+    decrypted_message = crack(ciphertext)
+    print("Decrypted message:", decrypted_message)
 
