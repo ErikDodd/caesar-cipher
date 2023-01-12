@@ -24,6 +24,7 @@ name_list = names.words()
 def encrypt(plaintext, key):
 
     ciphertext = ""
+
     for char in range(len(plaintext)):
         char = plaintext[char]
         #print(chr(ord(char) + 1))
@@ -41,25 +42,7 @@ def decrypt(ciphertext, key):
 
 
 def crack(ciphertext):
-    # Count the frequency of each letter in the ciphertext
-    frequencies = Counter(ciphertext)
-    print(frequencies)
-
-    # Assume that the most frequent letter in the ciphertext is "e"
-    most_frequent = max(frequencies, key=frequencies.get)
-    print("Most Frequent: ", most_frequent)
-    assumed_plaintext = "e"
-
-    # Determine the key (shift) by finding the difference between the
-    # assumed plaintext and the most frequent letter in the ciphertext
-    key = ord(assumed_plaintext) - ord(most_frequent)
-    print("key:", key)
-
-    # Use the key to decrypt the rest of the message
-    plaintext = ""
-    for char in ciphertext:
-        plaintext += chr((ord(char) - key) % 26 + ord('a'))
-    return plaintext
+    pass
 
 
 
